@@ -1,3 +1,4 @@
+Jenkins file 
 pipeline {
     agent{
        label 'docker'
@@ -5,23 +6,23 @@ pipeline {
 
     environment {
 
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    DOCKERHUB_CREDENTIALS = credentials('docker-id')
      registry = "muzammil7799/backend-lms"
-        registryCredential = 'dockerhub'
-        dockerImage = ''
+        registryCredential = 'docker-id'
+       
     }
 
     stages {
-
-
+        
+        
         stage('Building the docker image') {
             steps {
-                sh 'cd api && docker build -t muzammil7799/backend-lms .'
+                sh 'cd api && docker build -t muzammil/backend-lms .'
             }
         }
         stage('Logging into dockerhub account') {
             steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u muzammil7799 --password-8977719190'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
         stage('pushing the docker image into dockerhub') {
@@ -43,7 +44,7 @@ pipeline {
          stage('Running the docker container') {
             steps {
                   sh 'docker container rm --force backend'
-                  sh 'docker run -d -p 8080:8080 --network lmsnetwork -e DATABASE_URL=postgresql://postgres:password@lmsdb:5432/postgres --name backend -e PORT=8080 -e MODE=local  muzammil7799/backend-lms'
+                  sh 'docker run -d -p 8080:8080 --network lmsnetwork -e DATABASE_URL=postgresql://postgres:password@lmsdb:5432/postgres --name backend -e PORT=8080 -e MODE=local  muzammil/backend-lms'
             }
         }
     }
