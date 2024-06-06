@@ -7,14 +7,13 @@ pipeline {
            sh 'cd webapp && npm install && npm run build'
       }
     }
-    stage('nexus') {
+     stage('upload') {
         steps {
            sh 'zip -r lms-v1.1.zip webapp/dist/*'
            sh 'pwd'
            sh 'curl -v -u admin:admin123 --upload-file lms-v1.1.zip http://18.219.83.242:8081/repository/lms/'
       }
     }
-    stages {
     stage('download artifact') {
         steps {
            sh 'curl -u admin:admin123 -X GET http://18.219.83.242:8081/repository/lms/lms-v1.1.zip --output lms-v1.1.zip'
