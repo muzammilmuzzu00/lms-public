@@ -13,7 +13,7 @@ stages {
         steps {
            sh 'zip -r lms-v1.1.zip webapp/dist/*'
            sh 'pwd'
-           sh 'curl -v -u admin:admin123 --upload-file lms-v1.1.zip http://44.203.125.161:8081/repository/lms/'
+           sh 'curl -v -u admin:admin123 --upload-file lms-v1.1.zip http://18.219.83.242:8081/repository/lms/'
       }
     }
   }
