@@ -1,9 +1,7 @@
 pipeline {
-agent {
-any{
-}
-}
-stages {
+    agent any 
+
+    stages {
     stage('build') {
         steps {
            sh 'cd webapp && npm install && npm run build'
